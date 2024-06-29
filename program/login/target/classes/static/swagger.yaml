@@ -1,0 +1,61 @@
+openapi: 3.0.1
+paths:
+  /api/auth/signup:
+    post:
+      summary: Crear usuario
+      description: Crea un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/auth/login:
+    post:
+      summary: Iniciar sesión
+      description: Autentica un usuario y devuelve un token de acceso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Token de acceso generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                type: string
+
+    Login:
+      type: object
+      properties:
+        user:
+          type: string
+          example: usuario
+        password:
+          type: string
+          example: contraseña
+      required:
+        - user
+        - password

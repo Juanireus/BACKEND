@@ -1,0 +1,160 @@
+openapi: 3.0.1
+paths:
+  /api/auth/signup:
+    post:
+      summary: Crear usuario
+      description: Crea un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/auth/login:
+    post:
+      summary: Iniciar sesión
+      description: Autentica un usuario y devuelve un token de acceso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Token de acceso generado exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/orders:
+    get:
+      summary: Obtener órdenes
+      description: Retorna una lista de órdenes
+      responses:
+        '200':
+          description: Lista de órdenes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      summary: Crear nueva orden
+      description: Crea una nueva orden
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        headers:
+          Authorization:
+            schema:
+              type: string
+              example: Bearer <token>
+      responses:
+        '200':
+          description: Orden creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/orders/{id}:
+    put:
+      summary: Actualizar orden
+      description: Actualiza una orden existente por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Orden actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      summary: Eliminar orden
+      description: Elimina una orden existente por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Orden eliminada exitosamente
+
+  /api/products:
+    get:
+      summary: Obtener productos
+      description: Retorna una lista de productos
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Crear nuevo producto
+      description: Crea un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        headers:
+          Authorization:
+            schema:
+              type: string
+              example: Bearer <token>
+      responses:
+        '200':
+          description: Producto creado exitosamente
+          content:
+            application
